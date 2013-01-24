@@ -9,6 +9,7 @@ package magickwand
 import "C"
 
 import (
+    "fmt"
 	"unsafe"
 )
 
@@ -56,4 +57,13 @@ func (w *MagickWand) Exception() string {
 	C.MagickRelinquishMemory(unsafe.Pointer(errPtr))
 
 	return err
+}
+
+func (w *MagickWand) ReadBlob(blob []byte, length uint) error {
+	if C.MagickReadImageBlob(w.wand, unsafe.Pointer(&blob[0]),
+		C.size_t(length)) == C.MagickFalse {
+		return fmt.Errorf("ReadBlob() failed : %s", w.Exception())
+	}
+
+	return nil
 }
