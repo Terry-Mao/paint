@@ -13,6 +13,36 @@ import (
 	"unsafe"
 )
 
+const (
+	BesselFilter   = "BesselFilter"
+	BlackmanFilter = "BlackmanFilter"
+	BoxFilter      = "BoxFilter"
+	CatromFilter   = "CatromFilter"
+	GaussianFilter = "GaussianFilter"
+	HanningFilter  = "HanningFilter"
+	HermiteFilter  = "HermiteFilter"
+	LanczosFilter  = "LanczosFilter"
+	MitchellFilter = "MitchellFilter"
+	SincFilter     = "SincFilter"
+	TriangleFilter = "TriangleFilter"
+)
+
+var (
+	FilterTypes = map[string]C.FilterTypes{
+		BesselFilter:   C.BesselFilter,
+		BlackmanFilter: C.BlackmanFilter,
+		BoxFilter:      C.BoxFilter,
+		CatromFilter:   C.CatromFilter,
+		GaussianFilter: C.GaussianFilter,
+		HanningFilter:  C.HanningFilter,
+		HermiteFilter:  C.HermiteFilter,
+		LanczosFilter:  C.LanczosFilter,
+		MitchellFilter: C.MitchellFilter,
+		SincFilter:     C.SincFilter,
+		TriangleFilter: C.TriangleFilter,
+	}
+)
+
 type MagickWand struct {
 	wand *C.MagickWand
 }
@@ -70,7 +100,7 @@ func (w *MagickWand) ReadBlob(blob []byte, length uint) error {
 }
 
 /* Implements direct to memory image formats. */
-func (w *MagickWand) GetBlob(length *uint) []byte {
+func (w *MagickWand) Blob(length *uint) []byte {
 	blobPtr := unsafe.Pointer(C.MagickGetImageBlob(w.wand,
 		(*C.size_t)(unsafe.Pointer(length))))
 	blob := C.GoBytes(blobPtr, C.int(int(*length)))
@@ -93,4 +123,50 @@ func (w *MagickWand) Write(fileName string) error {
 	}
 
 	return nil
+}
+
+/* Extracts a region of the image. */
+func (w *MagickWand) Crop(width, height uint, x, y int) error {
+	if C.MagickCropImage(w.wand, C.size_t(width), C.size_t(height),
+		C.ssize_t(x), C.ssize_t(y)) == C.MagickFalse {
+		return fmt.Errorf("Crop() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Adaptively resize image with data dependent triangulation. */
+func (w *MagickWand) AdaptiveResize(columns, rows uint) error {
+	if C.MagickAdaptiveResizeImage(w.wand, C.size_t(columns),
+		C.size_t(rows)) == C.MagickFalse {
+		return fmt.Errorf("AdaptiveResize() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Scales an image to the desired dimensions. */
+func (w *MagickWand) Resize(columns, rows uint, filter string,
+	blur float64) error {
+	ft, exists := FilterTypes[filter]
+	if !exists {
+		return fmt.Errorf("Resize() failed : not exists filtertype %s", filter)
+	}
+
+	if C.MagickResizeImage(w.wand, C.size_t(columns),
+		C.size_t(rows), ft, C.double(blur)) == C.MagickFalse {
+		return fmt.Errorf("Resize() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Get the image height. */
+func (w *MagickWand) Height() uint {
+	return uint(C.MagickGetImageHeight(w.wand))
+}
+
+/* Get the image width. */
+func (w *MagickWand) Width() uint {
+	return uint(C.MagickGetImageWidth(w.wand))
 }
