@@ -9,12 +9,12 @@ package magickwand
 import "C"
 
 import (
-    "fmt"
+	"fmt"
 	"unsafe"
 )
 
 type MagickWand struct {
-    wand *C.MagickWand
+	wand *C.MagickWand
 }
 
 /* Initializes the MagickWand environment. */
@@ -33,7 +33,7 @@ func Terminus() {
    dispose of the wand when it is no longer needed. 
 */
 func New() *MagickWand {
-    return &MagickWand { wand : C.NewMagickWand() }
+	return &MagickWand{wand: C.NewMagickWand()}
 }
 
 /* 
@@ -59,10 +59,37 @@ func (w *MagickWand) Exception() string {
 	return err
 }
 
+/* Reads an image or image sequence from a blob. */
 func (w *MagickWand) ReadBlob(blob []byte, length uint) error {
 	if C.MagickReadImageBlob(w.wand, unsafe.Pointer(&blob[0]),
 		C.size_t(length)) == C.MagickFalse {
 		return fmt.Errorf("ReadBlob() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Implements direct to memory image formats. */
+func (w *MagickWand) GetBlob(length *uint) []byte {
+	blobPtr := unsafe.Pointer(C.MagickGetImageBlob(w.wand,
+		(*C.size_t)(unsafe.Pointer(length))))
+	blob := C.GoBytes(blobPtr, C.int(int(*length)))
+	C.MagickRelinquishMemory(unsafe.Pointer(blobPtr))
+	return blob
+}
+
+func (w *MagickWand) Read(fileName string) error {
+	if C.MagickReadImage(w.wand, C.CString(fileName)) == C.MagickFalse {
+		return fmt.Errorf("Read() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Writes an image to the specified filename. */
+func (w *MagickWand) Write(fileName string) error {
+	if C.MagickWriteImage(w.wand, C.CString(fileName)) == C.MagickFalse {
+		return fmt.Errorf("Write() failed : %s", w.Exception())
 	}
 
 	return nil
