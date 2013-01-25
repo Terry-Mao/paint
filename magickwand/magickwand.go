@@ -14,33 +14,39 @@ import (
 )
 
 const (
-	BesselFilter   = "BesselFilter"
-	BlackmanFilter = "BlackmanFilter"
-	BoxFilter      = "BoxFilter"
-	CatromFilter   = "CatromFilter"
-	GaussianFilter = "GaussianFilter"
-	HanningFilter  = "HanningFilter"
-	HermiteFilter  = "HermiteFilter"
-	LanczosFilter  = "LanczosFilter"
-	MitchellFilter = "MitchellFilter"
-	SincFilter     = "SincFilter"
-	TriangleFilter = "TriangleFilter"
-)
+	/* FilterTypes */
+	BesselFilter   = int(C.BesselFilter)
+	BlackmanFilter = int(C.BlackmanFilter)
+	BoxFilter      = int(C.BoxFilter)
+	CatromFilter   = int(C.CatromFilter)
+	GaussianFilter = int(C.GaussianFilter)
+	HanningFilter  = int(C.HanningFilter)
+	HermiteFilter  = int(C.HermiteFilter)
+	LanczosFilter  = int(C.LanczosFilter)
+	MitchellFilter = int(C.MitchellFilter)
+	SincFilter     = int(C.SincFilter)
+	TriangleFilter = int(C.TriangleFilter)
 
-var (
-	FilterTypes = map[string]C.FilterTypes{
-		BesselFilter:   C.BesselFilter,
-		BlackmanFilter: C.BlackmanFilter,
-		BoxFilter:      C.BoxFilter,
-		CatromFilter:   C.CatromFilter,
-		GaussianFilter: C.GaussianFilter,
-		HanningFilter:  C.HanningFilter,
-		HermiteFilter:  C.HermiteFilter,
-		LanczosFilter:  C.LanczosFilter,
-		MitchellFilter: C.MitchellFilter,
-		SincFilter:     C.SincFilter,
-		TriangleFilter: C.TriangleFilter,
-	}
+	/* Compression */
+	UndefinedCompression    = int(C.UndefinedCompression)
+	NoCompression           = int(C.NoCompression)
+	BZipCompression         = int(C.BZipCompression)
+	DXT1Compression         = int(C.DXT1Compression)
+	DXT3Compression         = int(C.DXT3Compression)
+	DXT5Compression         = int(C.DXT5Compression)
+	FaxCompression          = int(C.FaxCompression)
+	Group4Compression       = int(C.Group4Compression)
+	JPEGCompression         = int(C.JPEGCompression)
+	JPEG2000Compression     = int(C.JPEG2000Compression)
+	LosslessJPEGCompression = int(C.LosslessJPEGCompression)
+	LZWCompression          = int(C.LZWCompression)
+	RLECompression          = int(C.RLECompression)
+	ZipCompression          = int(C.ZipCompression)
+	ZipSCompression         = int(C.ZipSCompression)
+	PizCompression          = int(C.PizCompression)
+	Pxr24Compression        = int(C.Pxr24Compression)
+	B44Compression          = int(C.B44Compression)
+	B44ACompression         = int(C.B44ACompression)
 )
 
 type MagickWand struct {
@@ -146,27 +152,68 @@ func (w *MagickWand) AdaptiveResize(columns, rows uint) error {
 }
 
 /* Scales an image to the desired dimensions. */
-func (w *MagickWand) Resize(columns, rows uint, filter string,
+func (w *MagickWand) Resize(columns, rows uint, filter int,
 	blur float64) error {
-	ft, exists := FilterTypes[filter]
-	if !exists {
-		return fmt.Errorf("Resize() failed : not exists filtertype %s", filter)
-	}
-
 	if C.MagickResizeImage(w.wand, C.size_t(columns),
-		C.size_t(rows), ft, C.double(blur)) == C.MagickFalse {
+		C.size_t(rows), C.FilterTypes(filter), C.double(blur)) ==
+		C.MagickFalse {
 		return fmt.Errorf("Resize() failed : %s", w.Exception())
 	}
 
 	return nil
 }
 
-/* Get the image height. */
+/* Gets the image height. */
 func (w *MagickWand) Height() uint {
 	return uint(C.MagickGetImageHeight(w.wand))
 }
 
-/* Get the image width. */
+/* Gets the image width. */
 func (w *MagickWand) Width() uint {
 	return uint(C.MagickGetImageWidth(w.wand))
+}
+
+/* Sets the image compression quality. */
+func (w *MagickWand) SetQuality(quality uint) error {
+	if C.MagickSetImageCompressionQuality(w.wand, C.size_t(quality)) ==
+		C.MagickFalse {
+		return fmt.Errorf("SetQuality() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Gets the image compression quality. */
+func (w *MagickWand) Quality() uint {
+	return uint(C.MagickGetImageCompressionQuality(w.wand))
+}
+
+/* Sets the image compression. */
+func (w *MagickWand) SetCompression(compression int) error {
+
+	if C.MagickSetImageCompression(w.wand, C.CompressionType(compression)) ==
+		C.MagickFalse {
+		return fmt.Errorf("SetCompression() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Gets the image compression. */
+func (w *MagickWand) Compression() int {
+	return int(C.MagickGetImageCompression(w.wand))
+}
+
+/* Sets the format of a particular image in a sequence */
+func (w *MagickWand) SetFormat(format string) error {
+	if C.MagickSetImageFormat(w.wand, C.CString(format)) == C.MagickFalse {
+		return fmt.Errorf("SetFormat() failed : %s", w.Exception())
+	}
+
+	return nil
+}
+
+/* Gets the format of a particular image in a sequence. */
+func (w *MagickWand) Format() string {
+	return C.GoString(C.MagickGetImageFormat(w.wand))
 }

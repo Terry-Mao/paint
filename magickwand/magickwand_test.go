@@ -177,7 +177,7 @@ func TestHeight(t *testing.T) {
 	}
 
 	if wand.Height() != 1080 {
-		t.Error("Heigh() test failed, Height not equals 1080")
+		t.Errorf("Height(%d) not equals 1080", wand.Height())
 	}
 }
 
@@ -192,6 +192,117 @@ func TestWidth(t *testing.T) {
 	}
 
 	if wand.Width() != 1920 {
-		t.Error("Width() test failed, Height not equals 1080")
+		t.Errorf("Width(%d) not equals 1080", wand.Width())
+	}
+}
+
+func TestSetQuality(t *testing.T) {
+	Genesis()
+	defer Terminus()
+	wand := New()
+	defer wand.Destroy()
+
+	if err := wand.Read("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+	if err := wand.SetQuality(1); err != nil {
+		t.Error(err)
+	}
+
+	if err := wand.Write("../examples/output/test-quality.png"); err !=
+		nil {
+		t.Error(err)
+	}
+}
+
+func TestQuality(t *testing.T) {
+	Genesis()
+	defer Terminus()
+	wand := New()
+	defer wand.Destroy()
+
+	if err := wand.Read("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+	if wand.Quality() != 0 {
+		t.Errorf("Quality(%d) not equals 100", wand.Quality())
+	}
+
+	if err := wand.Write("../examples/output/test-quality.png"); err !=
+		nil {
+		t.Error(err)
+	}
+}
+
+func TestSetCompression(t *testing.T) {
+	Genesis()
+	defer Terminus()
+	wand := New()
+	defer wand.Destroy()
+
+	if err := wand.Read("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+	if err := wand.SetCompression(JPEGCompression); err != nil {
+		t.Error(err)
+	}
+
+	if err := wand.Write("../examples/output/test-compression.jpg"); err !=
+		nil {
+		t.Error(err)
+	}
+}
+
+func TestCompression(t *testing.T) {
+	Genesis()
+	defer Terminus()
+	wand := New()
+	defer wand.Destroy()
+
+	if err := wand.Read("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+	if wand.Compression() != ZipCompression {
+		t.Error("Compression(%d) not equanls ZipCompression",
+			int(wand.Compression()))
+	}
+}
+
+func TestSetFormat(t *testing.T) {
+	Genesis()
+	defer Terminus()
+	wand := New()
+	defer wand.Destroy()
+
+	if err := wand.Read("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+	if err := wand.SetFormat("JPEG"); err != nil {
+		t.Error(err)
+	}
+
+	if err := wand.Write("../examples/output/test-format.jpg"); err !=
+		nil {
+		t.Error(err)
+	}
+}
+
+func TestFormat(t *testing.T) {
+	Genesis()
+	defer Terminus()
+	wand := New()
+	defer wand.Destroy()
+
+	if err := wand.Read("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+	if wand.Format() != "PNG" {
+		t.Errorf("Format(%s) not equanls PNG", wand.Format())
 	}
 }

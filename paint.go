@@ -2,7 +2,7 @@ package paint
 
 import (
 	"math"
-	"paint/magickwand"
+	"github.com/Terry-Mao/paint/magickwand"
 )
 
 func Thumbnail(wand *magickwand.MagickWand, width, height uint) error {

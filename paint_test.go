@@ -1,7 +1,7 @@
 package paint
 
 import (
-	"paint/magickwand"
+	"github.com/Terry-Mao/paint/magickwand"
 	"testing"
 )
 
