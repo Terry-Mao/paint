@@ -97,7 +97,7 @@ func TestBlob(t *testing.T) {
 	}
 	blob := wand.Blob(&length)
 
-	file1, err := os.OpenFile("../examples/output/test.png",
+	file1, err := os.OpenFile("../examples/output/test-blob.png",
 		os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		t.Error(err)
