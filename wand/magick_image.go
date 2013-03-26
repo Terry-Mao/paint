@@ -1,4 +1,4 @@
-package magickwand
+package wand
 
 /*
 #cgo LDFLAGS: -lMagickWand-Q16 -lMagickCore-Q16
@@ -140,6 +140,37 @@ func (w *MagickWand) AdaptiveResizeImage(columns, rows uint) error {
 	if C.MagickAdaptiveResizeImage(w.wand, C.size_t(columns), C.size_t(rows)) == C.MagickFalse {
 		eStr, eCode := w.GetException()
 		return fmt.Errorf("AdaptiveResizeImage() failed : [%d] %s", eStr, eCode)
+	}
+
+	return nil
+}
+
+// Sets the image background color.
+func (w *MagickWand) SetImageBackgroundColor(bg *PixelWand) error {
+	if C.MagickSetImageBackgroundColor(w.wand, bg.wand) == C.MagickFalse {
+		eStr, eCode := w.GetException()
+		return fmt.Errorf("SetImageBackgroundColor() failed : [%d] %s", eStr, eCode)
+	}
+
+	return nil
+}
+
+// Returns the image background color.
+func (w *MagickWand) GetImageBackgroundColor(bg *PixelWand) error {
+	if C.MagickGetImageBackgroundColor(w.wand, bg.wand) == C.MagickFalse {
+		eStr, eCode := w.GetException()
+		return fmt.Errorf("GetImageBackgroundColor() failed : [%d] %s", eStr, eCode)
+	}
+
+	return nil
+}
+
+// Adds a blank image canvas of the specified size and background color to the 
+// wand.
+func (w *MagickWand) NewImage(cols, rows uint, bg *PixelWand) error {
+	if C.MagickNewImage(w.wand, C.size_t(cols), C.size_t(rows), bg.wand) == C.MagickFalse {
+		eStr, eCode := w.GetException()
+		return fmt.Errorf("NewImage() failed : [%d] %s", eStr, eCode)
 	}
 
 	return nil

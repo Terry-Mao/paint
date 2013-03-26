@@ -4,12 +4,12 @@
 package paint
 
 import (
-	"github.com/Terry-Mao/paint/magickwand"
+	"github.com/Terry-Mao/paint/wand"
 )
 
 // Converts the current image into a thumbnail of the specified width and 
 // height. 
-func Thumbnail(wand *magickwand.MagickWand, width, height uint) error {
+func Thumbnail(w *wand.MagickWand, width, height uint) error {
 	// Resize
-	return wand.ResizeImage(width, height, magickwand.GaussianFilter, 1.0)
+	return w.ResizeImage(width, height, wand.GaussianFilter, 1.0)
 }

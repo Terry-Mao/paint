@@ -30,17 +30,17 @@ $ go get github.com/Terry-Mao/paint
 ```go
 package main
 
-import "github.com/Terry-Mao/paint"
+import "github.com/Terry-Mao/paint/wand"
 
 func main() {
-    magickwand.Genesis()
-        defer magickwand.Terminus()
-        wand := magickwand.New()
-        defer wand.Destroy()
+    wand.Genesis()
+    defer wand.Terminus()
+    wand := wand.NewMagickWand()
+    defer wand.Destroy()
 
-        if err := wand.ReadImage("./examples/input/test2.jpg"); err != nil {
-            t.Error(err)
-        }
+    if err := wand.ReadImage("./examples/input/test2.jpg"); err != nil {
+        t.Error(err)
+    }
 
     if err := Thumbnail(wand, 302, 126); err != nil {
         t.Error(err)

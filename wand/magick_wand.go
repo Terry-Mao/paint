@@ -1,5 +1,5 @@
-// Package magickwand providers magickwand core method.
-package magickwand
+// Package wand providers Imagemagick functions.
+package wand
 
 /*
 #cgo LDFLAGS: -lMagickWand-Q16 -lMagickCore-Q16
@@ -33,7 +33,7 @@ func Terminus() {
    thrown if there is not enough memory to allocate the wand. Use Destroy() to 
    dispose of the wand when it is no longer needed. 
 */
-func New() *MagickWand {
+func NewMagickWand() *MagickWand {
 	return &MagickWand{wand: C.NewMagickWand()}
 }
 

@@ -1,4 +1,4 @@
-package magickwand
+package wand
 
 /*
 #cgo LDFLAGS: -lMagickWand-Q16 -lMagickCore-Q16

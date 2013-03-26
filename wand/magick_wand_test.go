@@ -1,4 +1,4 @@
-package magickwand
+package wand
 
 import (
 	"bytes"
@@ -7,30 +7,30 @@ import (
 	"testing"
 )
 
-func TestNew(t *testing.T) {
+func TestNewMagickWand(t *testing.T) {
 	Genesis()
-	wand := New()
+	wand := NewMagickWand()
 	wand.Destroy()
 	Terminus()
 }
 
-func TestClear(t *testing.T) {
+func TestMagickWandClear(t *testing.T) {
 	Genesis()
-	wand := New()
+	wand := NewMagickWand()
 	wand.Clear()
 	wand.Destroy()
 	Terminus()
 }
 
-func TestReadBlob(t *testing.T) {
+func TestReadImageBlob(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	file, err := os.Open("../examples/input/test.png")
 	if err != nil {
-		t.Errorf("Error: %s\n", err)
+		t.Error(err)
 	}
 
 	defer file.Close()
@@ -38,7 +38,7 @@ func TestReadBlob(t *testing.T) {
 	buf := &bytes.Buffer{}
 	num, err := io.Copy(buf, file)
 	if err != nil {
-		t.Errorf("Error: %s\n", err)
+		t.Error(err)
 	}
 
 	if err = wand.ReadImageBlob(buf.Bytes(), uint(num)); err != nil {
@@ -46,10 +46,10 @@ func TestReadBlob(t *testing.T) {
 	}
 }
 
-func TestRead(t *testing.T) {
+func TestReadImage(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -57,10 +57,10 @@ func TestRead(t *testing.T) {
 	}
 }
 
-func TestWrite(t *testing.T) {
+func TestWriteImage(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -72,11 +72,11 @@ func TestWrite(t *testing.T) {
 	}
 }
 
-func TestBlob(t *testing.T) {
+func TestGetImageBlob(t *testing.T) {
 	var length uint
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	file, err := os.Open("../examples/input/test.png")
@@ -93,7 +93,7 @@ func TestBlob(t *testing.T) {
 	}
 
 	if err = wand.ReadImageBlob(buf.Bytes(), uint(num)); err != nil {
-		t.Errorf("Error: %s\n", err)
+		t.Error(err)
 	}
 
 	blob := wand.GetImageBlob(&length)
@@ -106,10 +106,10 @@ func TestBlob(t *testing.T) {
 	file1.Write(blob)
 }
 
-func TestCrop(t *testing.T) {
+func TestCropImage(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -125,10 +125,10 @@ func TestCrop(t *testing.T) {
 	}
 }
 
-func TestAdaptiveResize(t *testing.T) {
+func TestAdaptiveResizeImage(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -144,10 +144,10 @@ func TestAdaptiveResize(t *testing.T) {
 	}
 }
 
-func TestResize(t *testing.T) {
+func TestResizeImage(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -163,10 +163,10 @@ func TestResize(t *testing.T) {
 	}
 }
 
-func TestHeight(t *testing.T) {
+func TestGetImageHeight(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -178,10 +178,10 @@ func TestHeight(t *testing.T) {
 	}
 }
 
-func TestWidth(t *testing.T) {
+func TestGetImageWidth(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -193,10 +193,10 @@ func TestWidth(t *testing.T) {
 	}
 }
 
-func TestSetQuality(t *testing.T) {
+func TestSetImageCompressionQuality(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -213,10 +213,10 @@ func TestSetQuality(t *testing.T) {
 	}
 }
 
-func TestQuality(t *testing.T) {
+func TestGetImageCompressionQuality(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -232,10 +232,10 @@ func TestQuality(t *testing.T) {
 	}
 }
 
-func TestSetCompression(t *testing.T) {
+func TestSetImageCompression(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -251,10 +251,10 @@ func TestSetCompression(t *testing.T) {
 	}
 }
 
-func TestCompression(t *testing.T) {
+func TestGetImageCompression(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -266,10 +266,10 @@ func TestCompression(t *testing.T) {
 	}
 }
 
-func TestSetFormat(t *testing.T) {
+func TestSetImageFormat(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -285,10 +285,10 @@ func TestSetFormat(t *testing.T) {
 	}
 }
 
-func TestFormat(t *testing.T) {
+func TestGetImageFormat(t *testing.T) {
 	Genesis()
 	defer Terminus()
-	wand := New()
+	wand := NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
@@ -297,5 +297,25 @@ func TestFormat(t *testing.T) {
 
 	if wand.GetImageFormat() != "PNG" {
 		t.Errorf("Format(%s) not equanls PNG", wand.GetImageFormat())
+	}
+}
+
+func TestNewImage(t *testing.T) {
+	Genesis()
+	defer Terminus()
+    wand := NewMagickWand()
+	defer wand.Destroy()
+	bg := NewPixelWand()
+    defer bg.Destroy()
+    if err := bg.SetColor("red"); err != nil {
+        t.Error(err)
+    }
+
+    if err := wand.NewImage(300, 300, bg); err != nil {
+        t.Error(err)
+    }
+
+	if err := wand.WriteImage("../examples/output/test-new-image.jpg"); err != nil {
+		t.Error(err)
 	}
 }

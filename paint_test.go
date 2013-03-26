@@ -1,15 +1,15 @@
 package paint
 
 import (
-	"github.com/Terry-Mao/paint/magickwand"
+	"github.com/Terry-Mao/paint/wand"
 	"testing"
 )
 
 func TestThumbnail(t *testing.T) {
 
-	magickwand.Genesis()
-	defer magickwand.Terminus()
-	wand := magickwand.New()
+	wand.Genesis()
+	defer wand.Terminus()
+	wand := wand.NewMagickWand()
 	defer wand.Destroy()
 
 	if err := wand.ReadImage("./examples/input/test2.jpg"); err != nil {
@@ -26,9 +26,9 @@ func TestThumbnail(t *testing.T) {
 }
 
 func BenchmarkThumbnail(b *testing.B) {
-	magickwand.Genesis()
-	defer magickwand.Terminus()
-	wand := magickwand.New()
+	wand.Genesis()
+	defer wand.Terminus()
+	wand := wand.NewMagickWand()
 	defer wand.Destroy()
 
 	b.StopTimer()
