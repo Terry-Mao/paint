@@ -319,3 +319,33 @@ func TestNewImage(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestCompositeImage(t *testing.T) {
+	Genesis()
+	defer Terminus()
+    wand := NewMagickWand()
+	defer wand.Destroy()
+	bg := NewPixelWand()
+    defer bg.Destroy()
+    if err := bg.SetColor("red"); err != nil {
+        t.Error(err)
+    }
+
+    if err := wand.NewImage(300, 300, bg); err != nil {
+        t.Error(err)
+    }
+
+	wand1 := NewMagickWand()
+	defer wand1.Destroy()
+	if err := wand1.ReadImage("../examples/input/test.png"); err != nil {
+		t.Error(err)
+	}
+
+    if err := wand1.CompositeImage(wand, OverlayCompositeOp, 0, 0); err != nil {
+        t.Error(err)
+    }
+
+	if err := wand1.WriteImage("../examples/output/test-composite-image.jpg"); err != nil {
+		t.Error(err)
+	}
+}
