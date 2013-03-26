@@ -1,3 +1,5 @@
+// Copyright 2013 Terry.Mao. All rights reserved.
+
 // Package paint providers most used image function.
 package paint
 
