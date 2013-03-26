@@ -6,5 +6,5 @@ import (
 
 func Thumbnail(wand *magickwand.MagickWand, width, height uint) error {
 	// Resize
-	return wand.Resize(width, height, magickwand.GaussianFilter, 1.0)
+	return wand.ResizeImage(width, height, magickwand.GaussianFilter, 1.0)
 }

@@ -12,7 +12,7 @@ func TestThumbnail(t *testing.T) {
 	wand := magickwand.New()
 	defer wand.Destroy()
 
-	if err := wand.Read("./examples/input/test2.jpg"); err != nil {
+	if err := wand.ReadImage("./examples/input/test2.jpg"); err != nil {
 		t.Error(err)
 	}
 
@@ -20,7 +20,7 @@ func TestThumbnail(t *testing.T) {
 		t.Error(err)
 	}
 
-	if err := wand.Write("./examples/output/test2-thumbnail.jpg"); err != nil {
+	if err := wand.WriteImage("./examples/output/test2-thumbnail.jpg"); err != nil {
 		t.Error(err)
 	}
 }
@@ -35,7 +35,7 @@ func BenchmarkThumbnail(b *testing.B) {
 	b.StartTimer()
 
 	for i := 0; i < 1000; i++ {
-		if err := wand.Read("./examples/input/test2.jpg"); err != nil {
+		if err := wand.ReadImage("./examples/input/test2.jpg"); err != nil {
 			panic(err)
 		}
 
@@ -43,12 +43,10 @@ func BenchmarkThumbnail(b *testing.B) {
 			panic(err)
 		}
 
-		if err := wand.Write("./examples/output/test2-thumbnail.jpg"); err !=
-			nil {
+		if err := wand.WriteImage("./examples/output/test2-thumbnail.jpg"); err != nil {
 			panic(err)
 		}
 
 		wand.Clear()
 	}
-
 }

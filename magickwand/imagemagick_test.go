@@ -41,7 +41,7 @@ func TestReadBlob(t *testing.T) {
 		t.Errorf("Error: %s\n", err)
 	}
 
-	if err = wand.ReadBlob(buf.Bytes(), uint(num)); err != nil {
+	if err = wand.ReadImageBlob(buf.Bytes(), uint(num)); err != nil {
 		t.Error(err)
 	}
 }
@@ -52,7 +52,7 @@ func TestRead(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 }
@@ -63,11 +63,11 @@ func TestWrite(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test.png"); err != nil {
+	if err := wand.WriteImage("../examples/output/test.png"); err != nil {
 		t.Error(err)
 	}
 }
@@ -92,13 +92,12 @@ func TestBlob(t *testing.T) {
 		t.Error(err)
 	}
 
-	if err = wand.ReadBlob(buf.Bytes(), uint(num)); err != nil {
+	if err = wand.ReadImageBlob(buf.Bytes(), uint(num)); err != nil {
 		t.Errorf("Error: %s\n", err)
 	}
-	blob := wand.Blob(&length)
 
-	file1, err := os.OpenFile("../examples/output/test-blob.png",
-		os.O_CREATE|os.O_WRONLY, 0644)
+	blob := wand.GetImageBlob(&length)
+	file1, err := os.OpenFile("../examples/output/test-blob.png", os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		t.Error(err)
 	}
@@ -113,15 +112,15 @@ func TestCrop(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Crop(100, 100, 100, 0); err != nil {
+	if err := wand.CropImage(100, 100, 100, 0); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test-crop.png"); err != nil {
+	if err := wand.WriteImage("../examples/output/test-crop.png"); err != nil {
 		t.Error(err)
 	}
 }
@@ -132,16 +131,15 @@ func TestAdaptiveResize(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.AdaptiveResize(800, 600); err != nil {
+	if err := wand.AdaptiveResizeImage(800, 600); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test-adaptiveresize.png"); err !=
-		nil {
+	if err := wand.WriteImage("../examples/output/test-adaptiveresize.png"); err != nil {
 		t.Error(err)
 	}
 }
@@ -152,16 +150,15 @@ func TestResize(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Resize(192, 108, GaussianFilter, 1.0); err != nil {
+	if err := wand.ResizeImage(192, 108, GaussianFilter, 1.0); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test-resize.png"); err !=
-		nil {
+	if err := wand.WriteImage("../examples/output/test-resize.png"); err != nil {
 		t.Error(err)
 	}
 }
@@ -172,12 +169,12 @@ func TestHeight(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if wand.Height() != 1080 {
-		t.Errorf("Height(%d) not equals 1080", wand.Height())
+	if wand.GetImageHeight() != 1080 {
+		t.Errorf("Height(%d) not equals 1080", wand.GetImageHeight())
 	}
 }
 
@@ -187,12 +184,12 @@ func TestWidth(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if wand.Width() != 1920 {
-		t.Errorf("Width(%d) not equals 1080", wand.Width())
+	if wand.GetImageWidth() != 1920 {
+		t.Errorf("Width(%d) not equals 1080", wand.GetImageWidth())
 	}
 }
 
@@ -202,15 +199,15 @@ func TestSetQuality(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.SetQuality(1); err != nil {
+	if err := wand.SetImageCompressionQuality(1); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test-quality.png"); err !=
+	if err := wand.WriteImage("../examples/output/test-quality.png"); err !=
 		nil {
 		t.Error(err)
 	}
@@ -222,16 +219,15 @@ func TestQuality(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if wand.Quality() != 0 {
-		t.Errorf("Quality(%d) not equals 100", wand.Quality())
+	if wand.GetImageCompressionQuality() != 0 {
+		t.Errorf("Quality(%d) not equals 100", wand.GetImageCompressionQuality())
 	}
 
-	if err := wand.Write("../examples/output/test-quality.png"); err !=
-		nil {
+	if err := wand.WriteImage("../examples/output/test-quality.png"); err != nil {
 		t.Error(err)
 	}
 }
@@ -242,16 +238,15 @@ func TestSetCompression(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.SetCompression(JPEGCompression); err != nil {
+	if err := wand.SetImageCompression(JPEGCompression); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test-compression.jpg"); err !=
-		nil {
+	if err := wand.WriteImage("../examples/output/test-compression.jpg"); err != nil {
 		t.Error(err)
 	}
 }
@@ -262,13 +257,12 @@ func TestCompression(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if wand.Compression() != ZipCompression {
-		t.Error("Compression(%d) not equanls ZipCompression",
-			int(wand.Compression()))
+	if wand.GetImageCompression() != ZipCompression {
+		t.Error("Compression(%d) not equanls ZipCompression", int(wand.GetImageCompression()))
 	}
 }
 
@@ -278,16 +272,15 @@ func TestSetFormat(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.SetFormat("JPEG"); err != nil {
+	if err := wand.SetImageFormat("JPEG"); err != nil {
 		t.Error(err)
 	}
 
-	if err := wand.Write("../examples/output/test-format.jpg"); err !=
-		nil {
+	if err := wand.WriteImage("../examples/output/test-format.jpg"); err != nil {
 		t.Error(err)
 	}
 }
@@ -298,11 +291,11 @@ func TestFormat(t *testing.T) {
 	wand := New()
 	defer wand.Destroy()
 
-	if err := wand.Read("../examples/input/test.png"); err != nil {
+	if err := wand.ReadImage("../examples/input/test.png"); err != nil {
 		t.Error(err)
 	}
 
-	if wand.Format() != "PNG" {
-		t.Errorf("Format(%s) not equanls PNG", wand.Format())
+	if wand.GetImageFormat() != "PNG" {
+		t.Errorf("Format(%s) not equanls PNG", wand.GetImageFormat())
 	}
 }
