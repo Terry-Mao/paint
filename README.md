@@ -59,6 +59,7 @@ Read the `Terry-Mao/paint` documentation from a terminal
 
 ```go
 $ go doc github.com/Terry-Mao/paint
+$ go doc github.com/Terry-Mao/paint/magickwand
 ```
 
-Alternatively, you can [browse it](http://go.pkgdoc.org/github.com/Terry-Mao/paint) online.
+Alternatively, you can [browse it (paint)](http://go.pkgdoc.org/github.com/Terry-Mao/paint) and  [browse it (paint/magickwand)](http://go.pkgdoc.org/github.com/Terry-Mao/paint/magickwand) online.
