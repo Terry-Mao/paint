@@ -1,3 +1,4 @@
+// package magickwand is a golang encapsulation for Imagemagick.
 package magickwand
 
 import (

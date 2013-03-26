@@ -1,3 +1,4 @@
+// package magickwand is a golang encapsulation for Imagemagick.
 package magickwand
 
 /*
@@ -12,6 +13,7 @@ import (
 	"unsafe"
 )
 
+/* MagickWand wrap the struct of Imagemagick's MagickWand */
 type MagickWand struct {
 	wand *C.MagickWand
 }
@@ -48,12 +50,14 @@ func (w *MagickWand) Destroy() {
 	C.DestroyMagickWand(w.wand)
 }
 
+/* Returns the severity, reason, and description of any error that occurs when 
+   using other methods in this API. 
+*/
 func (w *MagickWand) GetException() (string, int) {
 	var severity C.ExceptionType
 	errPtr := C.MagickGetException(w.wand, &severity)
 	C.MagickClearException(w.wand)
 	err := C.GoString(errPtr)
 	C.MagickRelinquishMemory(unsafe.Pointer(errPtr))
-
 	return err, int(severity)
 }
