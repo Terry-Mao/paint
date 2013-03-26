@@ -30,7 +30,10 @@ $ go get github.com/Terry-Mao/paint
 ```go
 package main
 
-import "github.com/Terry-Mao/paint/wand"
+import (
+    "github.com/Terry-Mao/paint"
+    "github.com/Terry-Mao/paint/wand"
+)
 
 func main() {
     wand.Genesis()
