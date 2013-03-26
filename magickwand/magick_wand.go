@@ -1,3 +1,4 @@
+// Package magickwand providers magickwand core method.
 package magickwand
 
 /*
