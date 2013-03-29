@@ -35,8 +35,11 @@ func (w *MagickWand) ReadImageBlob(blob []byte, length uint) error {
 
 /* Implements direct to memory image formats. */
 func (w *MagickWand) GetImageBlob(length *uint) []byte {
+    w.ResetIterator()
 	blobPtr := unsafe.Pointer(C.MagickGetImageBlob(w.wand, (*C.size_t)(unsafe.Pointer(length))))
 	blob := C.GoBytes(blobPtr, C.int(int(*length)))
+    // need free blob memory
+    C.MagickRelinquishMemory(blobPtr)
 	return blob
 }
 

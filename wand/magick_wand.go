@@ -61,3 +61,8 @@ func (w *MagickWand) GetException() (string, int) {
 	C.MagickRelinquishMemory(unsafe.Pointer(errPtr))
 	return err, int(severity)
 }
+
+// Resets the wand iterator
+func (w *MagickWand) ResetIterator() {
+    C.MagickResetIterator(w.wand)
+}

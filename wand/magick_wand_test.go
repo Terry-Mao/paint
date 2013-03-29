@@ -341,7 +341,7 @@ func TestCompositeImage(t *testing.T) {
 		t.Error(err)
 	}
 
-    if err := wand1.CompositeImage(wand, OverlayCompositeOp, 0, 0); err != nil {
+    if err := wand1.CompositeImage(wand, AtopCompositeOp, 0, 0); err != nil {
         t.Error(err)
     }
 
