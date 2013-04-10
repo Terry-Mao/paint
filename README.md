@@ -45,7 +45,7 @@ func main() {
         t.Error(err)
     }
 
-    if err := Thumbnail(w, 302, 126); err != nil {
+    if err := paint.Thumbnail(w, 302, 126); err != nil {
         t.Error(err)
     }
 
