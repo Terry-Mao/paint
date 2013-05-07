@@ -53,7 +53,7 @@ func (w *MagickWand) Destroy() {
 /* Returns the severity, reason, and description of any error that occurs when 
    using other methods in this API. 
 */
-func (w *MagickWand) GetException() (string, int) {
+func (w *MagickWand) Exception() (string, int) {
 	var severity C.ExceptionType
 	errPtr := C.MagickGetException(w.wand, &severity)
 	C.MagickClearException(w.wand)

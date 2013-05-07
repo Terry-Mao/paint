@@ -72,7 +72,7 @@ func TestWriteImage(t *testing.T) {
 	}
 }
 
-func TestGetImageBlob(t *testing.T) {
+func TestImageBlob(t *testing.T) {
 	var length uint
 	Genesis()
 	defer Terminus()
@@ -96,7 +96,7 @@ func TestGetImageBlob(t *testing.T) {
 		t.Error(err)
 	}
 
-	blob := wand.GetImageBlob(&length)
+	blob := wand.ImageBlob(&length)
 	file1, err := os.OpenFile("../examples/output/test-blob.png", os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		t.Error(err)
@@ -163,7 +163,7 @@ func TestResizeImage(t *testing.T) {
 	}
 }
 
-func TestGetImageHeight(t *testing.T) {
+func TestImageHeight(t *testing.T) {
 	Genesis()
 	defer Terminus()
 	wand := NewMagickWand()
@@ -173,12 +173,12 @@ func TestGetImageHeight(t *testing.T) {
 		t.Error(err)
 	}
 
-	if wand.GetImageHeight() != 1080 {
-		t.Errorf("Height(%d) not equals 1080", wand.GetImageHeight())
+	if wand.ImageHeight() != 1080 {
+		t.Errorf("Height(%d) not equals 1080", wand.ImageHeight())
 	}
 }
 
-func TestGetImageWidth(t *testing.T) {
+func TestImageWidth(t *testing.T) {
 	Genesis()
 	defer Terminus()
 	wand := NewMagickWand()
@@ -188,8 +188,8 @@ func TestGetImageWidth(t *testing.T) {
 		t.Error(err)
 	}
 
-	if wand.GetImageWidth() != 1920 {
-		t.Errorf("Width(%d) not equals 1080", wand.GetImageWidth())
+	if wand.ImageWidth() != 1920 {
+		t.Errorf("Width(%d) not equals 1080", wand.ImageWidth())
 	}
 }
 
@@ -213,7 +213,7 @@ func TestSetImageCompressionQuality(t *testing.T) {
 	}
 }
 
-func TestGetImageCompressionQuality(t *testing.T) {
+func TestImageCompressionQuality(t *testing.T) {
 	Genesis()
 	defer Terminus()
 	wand := NewMagickWand()
@@ -223,8 +223,8 @@ func TestGetImageCompressionQuality(t *testing.T) {
 		t.Error(err)
 	}
 
-	if wand.GetImageCompressionQuality() != 0 {
-		t.Errorf("Quality(%d) not equals 100", wand.GetImageCompressionQuality())
+	if wand.ImageCompressionQuality() != 0 {
+		t.Errorf("Quality(%d) not equals 100", wand.ImageCompressionQuality())
 	}
 
 	if err := wand.WriteImage("../examples/output/test-quality.png"); err != nil {
@@ -251,7 +251,7 @@ func TestSetImageCompression(t *testing.T) {
 	}
 }
 
-func TestGetImageCompression(t *testing.T) {
+func TestImageCompression(t *testing.T) {
 	Genesis()
 	defer Terminus()
 	wand := NewMagickWand()
@@ -261,8 +261,8 @@ func TestGetImageCompression(t *testing.T) {
 		t.Error(err)
 	}
 
-	if wand.GetImageCompression() != ZipCompression {
-		t.Error("Compression(%d) not equanls ZipCompression", int(wand.GetImageCompression()))
+	if wand.ImageCompression() != ZipCompression {
+		t.Error("Compression(%d) not equanls ZipCompression", int(wand.ImageCompression()))
 	}
 }
 
@@ -285,7 +285,7 @@ func TestSetImageFormat(t *testing.T) {
 	}
 }
 
-func TestGetImageFormat(t *testing.T) {
+func TestImageFormat(t *testing.T) {
 	Genesis()
 	defer Terminus()
 	wand := NewMagickWand()
@@ -295,8 +295,8 @@ func TestGetImageFormat(t *testing.T) {
 		t.Error(err)
 	}
 
-	if wand.GetImageFormat() != "PNG" {
-		t.Errorf("Format(%s) not equanls PNG", wand.GetImageFormat())
+	if wand.ImageFormat() != "PNG" {
+		t.Errorf("Format(%s) not equanls PNG", wand.ImageFormat())
 	}
 }
 

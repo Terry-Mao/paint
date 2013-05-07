@@ -35,7 +35,7 @@ func (p *PixelWand) Destroy() {
 
 // Returns the severity, reason, and description of any error that occurs 
 // when using other methods in this API.
-func (p *PixelWand) GetException() (string, int) {
+func (p *PixelWand) Exception() (string, int) {
 	var severity C.ExceptionType
 	errPtr := C.PixelGetException(p.wand, &severity)
 	C.PixelClearException(p.wand)
@@ -48,7 +48,7 @@ func (p *PixelWand) GetException() (string, int) {
 // "rgb(0,0,255)", "cmyk(100,100,100,10)", etc.).
 func (p *PixelWand) SetColor(color string) error {
 	if C.PixelSetColor(p.wand, C.CString(color)) == C.MagickFalse {
-		eStr, eCode := p.GetException()
+		eStr, eCode := p.Exception()
 		return fmt.Errorf("SetColor() failed : [%d] %s", eStr, eCode)
     }
 
