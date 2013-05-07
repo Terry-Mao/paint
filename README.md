@@ -45,7 +45,7 @@ func main() {
         t.Error(err)
     }
 
-    if err := Thumbnail(w, 302, 126); err != nil {
+    if err := paint.Thumbnail(w, 302, 126); err != nil {
         t.Error(err)
     }
 
@@ -65,4 +65,4 @@ $ go doc github.com/Terry-Mao/paint
 $ go doc github.com/Terry-Mao/paint/magickwand
 ```
 
-Alternatively, you can [paint](http://go.pkgdoc.org/github.com/Terry-Mao/paint) and [paint/magickwand](http://go.pkgdoc.org/github.com/Terry-Mao/paint/magickwand) online.
+Alternatively, you can [paint](http://go.pkgdoc.org/github.com/Terry-Mao/paint) and [paint/wand](http://go.pkgdoc.org/github.com/Terry-Mao/paint/wand) online.
