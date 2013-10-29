@@ -22,6 +22,7 @@ $ sudo aptitude install libmagickwand-dev
 Just pull `Terry-Mao/paint` from github using `go get`:
 
 ```sh
+# download the code
 $ go get github.com/Terry-Mao/paint
 ```
 
