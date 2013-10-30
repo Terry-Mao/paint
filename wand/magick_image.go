@@ -1,8 +1,7 @@
 package wand
 
 /*
-#cgo LDFLAGS: -lMagickWand-Q16 -lMagickCore-Q16
-#cgo CFLAGS: -fopenmp -I/usr/local/include/ImageMagick
+#cgo pkg-config: MagickWand
 
 #include <wand/magick_wand.h>
 */
